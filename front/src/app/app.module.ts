@@ -15,6 +15,8 @@ import { ArticleventeComponent } from './articlevente/articlevente.component';
 import { FormventeComponent } from './articlevente/formvente/formvente.component';
 import { ItemventeComponent } from './articlevente/listevente/itemvente/itemvente.component';
 import { ListeventeComponent } from './articlevente/listevente/listevente.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { ListeventeComponent } from './articlevente/listevente/listevente.compon
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

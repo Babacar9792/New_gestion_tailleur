@@ -20,7 +20,8 @@ class ArticleVenteResource extends JsonResource
             "id" => $this->id,
             "libelle" => $this->libelle,
             "categorie" => new CategorieResource($this->categorie),
-            "confection par vente" => ArticleResource::collection($this->articles)
-        ];
+            "confection_vente" => ArticleResource::collection($this->articles),
+            "quantite_stock" => $this->quantite_stock
+         ];
     }
 }
