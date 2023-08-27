@@ -1,0 +1,210 @@
+<!-- 
+<form class="w-100 d-flex justify-content-center align-items-center flex-column" [formGroup]="register" (ngSubmit)="registerForm()">
+    <div class="d-none">{{idToEdit}}</div>
+
+    <div class="row d-flex justify-content-around align-items-center">
+        <div class="w-50 d-flex flex-column justify-conetent-center align-items-center ">
+            <div class="w-100 d-flex justify-content-around mt-2 align-items-center fw-bold">
+                <div class="col-md-1">
+                    <label for="libelle">Libelle</label>
+                </div>
+                <div class="col-md-6 position-relative mt-2">
+                    <input type="text" class="form-control" id="libelle" required formControlName="libelle" name="libelle" >
+                    <div class="w-100 d-flex justify-content-center align-items-center text-danger position-absolute top-50" style="z-index: 100;"   > 
+
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 d-flex justify-content-around mt-2 align-items-center fw-bold">
+                <div class="col-md-1">
+                    <label for="libelle">Prix</label>
+                </div>
+                <div class="col-md-6 position-relative">
+                    <input type="number" class="form-control" id="libelle" required name="prix" min="1">
+
+                    <div class="w-100 d-flex justify-content-center align-items-center  position-absolute top-50 text-danger">
+
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 d-flex justify-content-around mt-2 align-items-center fw-bold">
+                <div class="col-md-1">
+                    <label for="libelle">Stock</label>
+                </div>
+                <div class="col-md-6 position-relative">
+                    <input type="number" class="form-control" id="libelle" name="stock" min="1"  >
+                    <div class="w-100 d-flex justify-content-center align-items-center  position-absolute text-danger">
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 d-flex justify-content-around mt-2 align-items-center fw-bold">
+                <div class="col-md-1">
+                    <label for="libelle">Categorie</label>
+                </div>
+                <div class="col-md-6">
+                    <select name="" class="form-select" id="" name ="categorie_id" >
+                        <option value="">Choisir une categorie</option>
+                        <option > </option>
+
+                    </select>
+                    <div class="w-100 d-flex justify-content-center align-items-center bg-primary border border-1">
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 d-flex justify-content-around mt-2 align-items-center fw-bold">
+                <div class="col-md-1">
+                    <label for="libelle">Fournisseur</label>
+                    <div class="position-relative">
+                        <div class="position-absolute text-danger" >
+    
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="libelle" >
+                    <div class="w-100 d-flex justify-content-center align-items-center bg-success border border-1 position-relative">
+                        
+                        <ul style="list-style: none; z-index: 10000;" class="w-100 d-flex justify-content-center align-items-center flex-column position-absolute top-0 mx-4">
+                            <li class="w-100 border border-1 text-center" id=""> </li>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="w-100 d-flex">
+                <div class="p-2 border border-2 bg-primary m-1  rounded rounded-1 position-relative" *ngFor="let fournisseur of fournisseursSelected" >
+                    {{fournisseur.nom_fournisseur}}
+                        
+                    <div class="position-absolute d-flex justify-content-around top-0 w-100 ms-4" id= "{{fournisseur.nom_fournisseur+'_'+fournisseur.id}}" (click)="deselectedFournisseur($event)" > X </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-50 d-flex flex-column align-items-center">
+            <div class="w-75 border border-2" style="background-image:url(''); background-repeat: no-repeat; background-size: cover;" >
+                <div class="w-75 m-4 p-2"
+                    style="height: 7em;">
+                    <input type="file" class="w-100 h-100 d-none"
+                        style=" background-color: transparent; color: transparent;"
+                        accept=".png, .jpg, .jpeg" required name="photo" >
+                    <img [src]="" alt="" class="img-thumbnail w-100 h-100">
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="w-100 d-flex align-items-center justify-content-center">
+                    <strong>REF</strong>
+                </div>
+                <div class="w-100 d-flex justify-content-center align-items-center">
+                    <input type="text" name="reference" readonly id="" class="w-75 form-control"
+                        placeholder="REF-LIB-CATEGORIE-11111" value="" >
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="w-100 d-flex justify-content-end align-items-center">
+        <button type="submit" class="btn btn-primary " [disabled]=""  >Submit</button>
+
+    </div>
+</form> -->
+
+
+<div class="w-100 border border-2 h-50">
+   
+
+
+    <form class="w-100 d-flex justify-content-center align-items-center">
+
+        <div class="w-50 d-flex flex-column justify-content-between align-items-center">
+
+
+            <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
+                <div class="col-auto">
+                  <label for="libelle" class="col-form-label">Libelle</label>
+                </div>
+                <div class="col-auto">
+                  <input type="text" id="libelle" class="form-control" aria-describedby="textHelpInline">
+                </div>
+              </div>
+
+              <!-- --------------------------------------------------------------------------------------- -->
+              <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
+                <div class="col-auto">
+                  <label for="prix" class="col-form-label">Prix</label>
+                </div>
+                <div class="col-auto">
+                  <input type="text" id="prix" class="form-control" aria-describedby="textHelpInline">
+                </div>
+              </div>
+
+              <!-- --------------------------------------------------------------------------------------- -->
+              <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
+                <div class="col-auto">
+                  <label for="stock" class="col-form-label">Stock</label>
+                </div>
+                <div class="col-auto">
+                  <input type="text" id="stock" class="form-control" aria-describedby="textHelpInline">
+                </div>
+              </div>
+
+              <!-- --------------------------------------------------------------------------------------- -->
+              <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
+                <div class="col-auto">
+                  <label for="inputtext6" class="col-form-label">Categorie</label>
+                </div>
+                <div class="col-auto">
+                  <!-- <input type="text" id="inputtext6" class="form-control" aria-describedby="textHelpInline"> -->
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Choisir une categorie</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- --------------------------------------------------------------------------------------- -->
+              <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
+                <div class="col-auto">
+                  <label for="fournisseur" class="col-form-label">Fournisseur</label>
+                </div>
+                <div class="col-auto">
+                  <input type="text" id="fournisseur" class="form-control" aria-describedby="textHelpInline">
+                </div>
+              </div>
+
+              <!-- --------------------------------------------------------------------------------------- -->
+
+
+        </div>
+        <div class="w-50 d-flex flex-column justify-conetent-center align-items-center">
+            <div class="w-75 border border-1 h-25 d-flex justify-conetent-center align-items-center flex-column">
+                <label for="chooseImage" class="w-75 h-50">
+                    <img src="https://media.istockphoto.com/id/1206577970/vector/image-upload-icon.jpg?s=170667a&w=0&k=20&c=hVvbDOXk8n9gBaJtAxmnLK-KkGvalMj3OKGMF-IpW2A=" alt="" class="img img-thumbnail">
+                </label>
+                <input type="file" id="chooseImage" [hidden]="true">
+
+
+
+
+            </div>
+            <div class="d-flex justify-conetent-center align-items-center flex-column w-50">
+
+                <label for="">REF</label>
+                <input type="text" value="nhgf" class="form-control w-100">
+            </div>
+
+        </div>
+
+
+
+    </form>
+</div>

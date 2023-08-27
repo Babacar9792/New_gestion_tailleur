@@ -1,0 +1,152 @@
+<!-- <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="w-50 border border-1 text-dark mh-50 container p-4">
+        <div>
+            <div>
+                <h3>Categorie</h3>
+            </div>
+            <div class="w-100 d-flex justify-content-end align-items-center px-1 fw-bold">
+                <span>Ajout</span>
+                <div class="form-check form-switch m-4 fs-4">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                </div>
+                <span>Edit</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <label for="libelle">Libelle</label>
+            </div>
+            <form class="col-md-6" >
+                <input type="text" class="form-control" id="libelle" formControlName = "libelleControl">
+                <div class="w-100 d-flex justify-content-center align-items-center bg-primary border border-1"></div>
+            </form>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-primary" >Ok</button>
+            </div>
+        </div>
+        <div class="d-flex justify-content-around mt-4">
+            <div class="">
+                <h6></h6>
+                <h4 class="text-decoration-underline">Liste des catégories</h4>
+                <table class="table table-hover">
+                    <thead>
+
+                        <tr>
+                            <th scope="col"><input type="checkbox" name="" id=""></th>
+                            <th scope="col">Libelle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input diogal" type="checkbox" 
+                                        id="flexCheckDefault">
+                                </div>
+                            </td>
+                            <td > </td>
+                        </tr>
+                    </tbody>
+                </table>
+                -->
+
+                <!-- <nav aria-label="...">
+                    <ul class="pagination">
+                        <li class="page-item" read0nly>
+                            <span class="page-link" (click)="getData(getPreviewPage(categories.meta.current_page, categories.meta.per_page))">Previous</span>
+                        </li>
+                        <li class="page-item"><span class="page-link" (click)="getData(1)">1</span></li>
+                        <li class="page-item active" aria-current="page" (click)="getData(2)">
+                            <span class="page-link">2</span>
+                        </li>
+                        <li class="page-item">
+                            <span class="page-link" (click)="getData(3)">3</span>
+                        </li>
+                        <li class="page-item">
+                            <span class="page-link"  (click)="getData(getNextPage(categories.meta.current_page, categories.meta.per_page))">Next</span>
+                        </li>
+                    </ul>
+                </nav> -->
+            <!-- </div>
+            <div>
+                <button type="button" class="btn btn-danger" >Supprimer</button>
+
+            </div>
+        </div>
+
+    </div>
+</div> -->
+
+<!-- </html>  -->
+
+
+
+<div style="height: 40em; width: 60em;">
+
+
+    <div class="container container-fluid w-100 d-flex bg-dark border border-1 flex-column p-4 text-light h-100 d-flex justify-content-center align-items-center">
+        <div class=" border border-1 p-4 w-100">
+            <h2>Categorie</h2>
+            <!-- <div class="w-100 d-flex justify-content-end"><button disabled="disabled">AAA</button></div> -->
+            <div class="form-check form-switch d-flex justify-content-end fs-4">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" (change) = "changeMode()" >
+                <label class="form-check-label" for="flexSwitchCheckChecked">{{addOrEdit}}</label>
+              </div>
+        </div>
+        <div class="w-100 border border-1 p-3">
+            <form class="d-flex justify-content-around w-100 p-4">
+                <div class="d-flex justify-content-center align-items-center">
+                    <label for="libelle">Libelle</label>
+                    <input type="text" name="libelle" id="" class="form-control mx-4"  >
+    
+                </div>
+                <button type="submit" class="btn btn-primary ms-4" >Ok</button>
+            </form>
+        </div>
+        <div class="w-100 p-3 border border-1">
+            <div class="w-100 d-flex justify-content-around" style="text-decoration: underline;">
+                <h3>Liste des articles</h3>
+                <div>
+                    <button type="button" class="btn btn-danger">Supprimer</button>
+                </div>
+    
+            </div>
+            <div class="w-50">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">   <input type="checkbox" name="" id=""> </th>
+                            <th scope="col">Libelle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr >
+                            <th scope="row">   <input type="checkbox" name="" id=""> aaaaa </th>
+                            <td ></td>
+                          
+                        </tr>
+                        <!-- <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                           
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td colspan="2">Larry the Bird</td>
+                          
+                        </tr> -->
+                    </tbody>
+                </table>
+    
+    
+            </div>
+    
+        </div>
+    
+    </div>
+    
+    
+    
+    </div>

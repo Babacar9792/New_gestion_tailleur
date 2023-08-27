@@ -1,0 +1,68 @@
+<form class="w-100 border border-3 p-2">
+    <div class="w-100 d-flex">
+        <!-- lib -->
+        <div class="w-75 ">
+            <div class="w-100 d-flex justify-content-center align-items-center">
+                <div class="w-100 h-25 d-flex flex-column justify-content-center align-items-center">
+                    <div>
+                        <label for="libelle">Libelle</label>
+                        <input type="text" class="form-control" id="libelle">
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <label for="promo">promo</label>
+                        <input type="checkbox" name="" id="promo" class="ms-1">
+                    </div>
+                </div>
+                <div class="h-25 d-flex flex-column justify-content-start align-items-start">
+                    <div class="mt-2">
+                        <label for="categorie">Categorie</label>
+                        <select name="" id="categorie" class="form-select">
+                            <option value="">1</option>
+                        </select>
+                    </div>
+                    <div class="w-100 d-flex justify-content-center align-items-center mt-1">
+                        <label for="valeurProme">Valeur</label>
+                        <input type="text" class="form-control w-50">
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <h5 class="text-decoration-underline">Liste des articles de confections <span class=""><i class="bi bi-plus-circle"></i></span> </h5> 
+                <table class="table">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Libelle</th>
+                            <th scope="col">quantite</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                         
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- ----photo -->
+        <div class="border border-1 w-50 h-75 p-3">
+            <div class="w-100 h-75 d-flex justify-content-center align-items-center flex-column">
+                <label for="file" class="w-100 d-flex justify-content-center align-items-center "><img
+                        src="https://thumbs.dreamstime.com/z/logo-de-vecteur-tailleur-calibre-machine-%C3%A0-coudre-mode-ic%C3%B4ne-134227221.jpg?w=768"
+                        class="img-thumbnail w-25" alt="..."></label>
+                <input type="file" [hidden]="true" id="file">
+            </div>
+            <div class="w-100 d-flex justify-content-center align-items-center h-25 flex-column">
+                <label for="reference text-uppercase">Reference</label>
+                <input type="text" class="form-control w-75" readonly>
+            </div>
+
+        </div>
+    </div>
+    <!-- -------------------btnsave -->
+    <div class="w-100 d-flex justify-content-end align-items-center">
+        <button type="submit" class="btn btn-success p-1 fs-3">Save</button>
+    </div>
+</form>
