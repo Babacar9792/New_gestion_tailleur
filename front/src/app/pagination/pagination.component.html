@@ -1,1 +1,8 @@
-<p>pagination works!</p>
+  <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item" *ngFor="let link of links" [ngClass]="{'active' : link.active, 'disabled' : link.url ===null}" >
+                <a class="page-link"  id="{{link.url}}" (click) = "changePage($event)" [innerHTML]="link.label"></a>
+            </li>
+           
+        </ul>
+    </nav>

@@ -1,4 +1,6 @@
 export interface Categorie {
     libelle : string,
-    id : number
+    type_categorie : string,
+    id ?: number,
+    enregistrement_categorie ?: number
 }

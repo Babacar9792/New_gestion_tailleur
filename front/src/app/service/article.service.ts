@@ -20,7 +20,7 @@ export class ArticleService  {
 
   all(page : number =1) : Observable<Response<any,Categorie, Fournisseur>>
   {
-    return this.http.get<Response<any,Categorie, Fournisseur>>(environment.api.url+"articl");
+    return this.http.get<Response<any,Categorie, Fournisseur>>(environment.api.url+"article");
   }
   
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Article;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -18,7 +19,8 @@ class ArticleVenteCollection extends ResourceCollection
         // return parent::toArray($request);
         return [
             "data" => $this->collection,
-            "categories" => CategorieResource::collection(Categorie::where("type_categorie", "AV")->get())
+            "categories" => CategorieResource::collection(Categorie::all()),
+            "articles" => ArticleResource::collection(Article::all())
 
         ];
     }

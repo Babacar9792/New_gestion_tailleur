@@ -26,7 +26,6 @@ class UpdateArticleVenteRequest extends FormRequest
     {
         return [
             "libelle" => "sometimes|string|min:3|unique:article_ventes,libelle",
-            "categorie_id" => "sometimes|exists:categories,id",
             "promo" => "sometimes|numeric",
             "marge" => "sometimes|numeric",
             "prix_confection" => "sometimes|numeric|min:0",
@@ -50,7 +49,6 @@ class UpdateArticleVenteRequest extends FormRequest
             "libelle.string" => "Le libelle ne doit comporter que des lettres",
             "libelle.min" => "Le libelle doit comporter au moins ttrois caracteres",
             "libelle.unique" => "Ce libelle existe déjà ",
-            "categorie_id.exists" => "L'id que vous avez choisi n'existe pas ou a été supprimer",
             "promo" => "La valeur du promo doit etre numeric",
             "prix_confection.required" => "Prix de confection ne doit pas etre vide",
             "prix_confection.numeric" => "le prix de confection est obligatoire",

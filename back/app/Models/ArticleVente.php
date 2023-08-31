@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +28,11 @@ class ArticleVente extends Model
     {
         $categorie = Categorie::where("id", $categorie_id)->first();
        return "REF-". strtoupper($categorie->libelle)."-".strtoupper(substr($libelleArticle, 0, 3))."-".count( DB::table("article_ventes")->where("categorie_id", $categorie)->get()) + 1;
+    }
+
+    public function confectionVente() : HasMany
+    {
+        return $this->hasMany(ConfectionVente::class);
     }
 
     

@@ -20,7 +20,8 @@ class CategorieCollection extends ResourceCollection
             // 'data' => CategorieResource::collection($this->collection),
             'data' => $this->collection,
             'message' => '',
-            'status' => true
+            'status' => true,
+            // 'links' => $this->links
         ];
     }
 
@@ -31,11 +32,11 @@ class CategorieCollection extends ResourceCollection
 
     }
 
-    public function withMessage($message)
-    {
-        return $this->additional([
-            'message' => $message
-        ]);
+    // public function withMessage($message)
+    // {
+    //     return $this->additional([
+    //         'message' => $message
+    //     ]);
 
-    }
+    // }
 }

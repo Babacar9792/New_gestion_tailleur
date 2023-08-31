@@ -20,8 +20,14 @@ class ArticleVenteResource extends JsonResource
             "id" => $this->id,
             "libelle" => $this->libelle,
             "categorie" => new CategorieResource($this->categorie),
-            "confection_vente" => ArticleResource::collection($this->articles),
-            "quantite_stock" => $this->quantite_stock
+            "confection_by_vente" => ArticleResource::collection($this->articles),
+            "quantite_stock" => $this->quantite_stock,
+            "promo" => $this->promo,
+            "reference" => $this->reference,
+            "marge" => $this->marge,
+            "prix_confection" => $this->prix_confection,
+            "prix_vente" => $this->prix_vente,
+            "photo" => $this->photo
          ];
     }
 }

@@ -17,7 +17,7 @@ class CategorieController extends Controller
 
     public function index()
     {
-        $categorieByPage = request()->query("limit", 2);
+        $categorieByPage = request()->query("limit", 4);
         $categories = Categorie::paginate($categorieByPage);
         return  new CategorieCollection($categories);
     }
@@ -30,7 +30,9 @@ class CategorieController extends Controller
         try {
             $categorie = new Categorie();
             $categorie->libelle = $request->libelle;
+            $categorie->type_categorie = $request->type_categorie;
             $categorie->save();
+            return ["message" => "Insertion reussi", "status" => true, "data" => new CategorieResource($categorie)];
         } catch (\Throwable $th) {
             //throw $th;
             return ['message' => $th->getMessage(), "status" => false, "data" => []];
@@ -77,7 +79,8 @@ class CategorieController extends Controller
      */
     public function destroy(Request $request)
     {
-        Categorie::whereIn("id", $request->ids)->delete();
+        return $request["ids"];
+        Categorie::whereIn("id", $request->idTodeletes)->delete();
         //
     }
 

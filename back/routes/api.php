@@ -30,7 +30,8 @@ Route::apiResource("article", ArticleController::class);
 Route::apiResource("fournisseur", FournisseurController::class);
 Route::post("article/update", [ArticleController::class, "updateArticle"]);
 Route::put("article/restoration/{article}", [ArticleController::class, "restore"]);
-Route::apiResource("articleVente", ArticleVenteController::class);
+Route::apiResource("articleVente", ArticleVenteController::class)->only(['index', 'show', 'destroy', 'store']);
+Route::post("articleVente/update", [ArticleVenteController::class, "updateArticle"]);
 
 
 Route::get("/search/{libelle}", [ArticleVenteController::class, "search"])->name("ArticleVente.search");

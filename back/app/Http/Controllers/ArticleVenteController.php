@@ -23,7 +23,7 @@ class ArticleVenteController extends Controller
     public $categorieExiste = [];
     public function __construct()
     {
-        $this->categorieExiste = Categorie::whereIn("libelle", ["Tissu", "bouton", "Fils", "Tissus", "boutons"])->pluck("id");
+        $this->categorieExiste = Categorie::whereIn("libelle", ["Tissu", "Bouton", "Fils", "Tissus", "Boutons"])->pluck("id");
     }
     /**
      * Display a listing of the resource.
@@ -31,26 +31,20 @@ class ArticleVenteController extends Controller
     public function index()
     {
         //
-        
+
         $byPage = request()->query("item", 3);
         return new ArticleVenteCollection(ArticleVente::paginate($byPage));
     }
 
 
-  
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreArticleVenteRequest $request)
     {
-        // return array_map(function ($element) {
-        //     return $element["article_id"];
-        // }, $request->confection_by_vente);
-
-
-
-
+        // dd($request->libelle);
         if (!$this->venteHasGoodConfgection(array_map(function ($element) {
             return $element["article_id"];
         }, $request->confection_by_vente))["status"]) {
@@ -58,43 +52,42 @@ class ArticleVenteController extends Controller
                 return $element["article_id"];
             }, $request->confection_by_vente));
         }
-        if($request->marge > $request->prix_confection || $request->marge < 5000)
-        {
-            return ["message" => "Marge incoorecte", "data" => [], "status" => false];
+        if ($request->marge > $request->prix_confection || $request->marge < 5000 || $request->marge > ($request->prix_confection / 3)) {
+            return ["message" => "Marge incorrecte. Elle doit etre compris entre 5000 et ".$request->prix_confection / 3, "data" => [], "status" => false];
         }
-        try {
-            DB::beginTransaction();
-            $articleVente = new ArticleVente();
-            $articleVente->libelle = ucfirst(strtolower($request->libelle));
-            $articleVente->categorie_id = $request->categorie_id;
-            $articleVente->promo = $request->promo;
-            $articleVente->marge = $request->marge;
-            $articleVente->prix_confection = $request->prix_confection;
-            $articleVente->prix_vente = $request->prix_vente;
-            $articleVente->photo = $request->photo;
-            $articleVente->quantite_stock =  $request->quantite_stock;
-            $articleVente->reference = $articleVente->getReference($request->categorie_id, $request->libelle);
-            // return $articleVente->getReference($request->categorie_id, $request->libelle);
-            if ($request->hasFile('photo')) {
-                $fileName = time() . '.' . $request->photo->extension();
-                $request->photo->storeAs('public/images', $fileName);
-                $articleVente->photo = 'images/' . $fileName;
-            }
-            else 
-            {
-                $articleVente->photo = 'pas dispo';
-            }
 
-            $articleVente->save();
-
-            // return $articleVente;
-            $articleVente->articles()->attach($request->confection_by_vente);
-            DB::commit();
-            return ["message" => "Insertion réussi", "data" => [new ArticleVenteResource($articleVente)], "status" => true];
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return ["message" => $th->getMessage(), "status" => false, "data" => []];
-        }
+        return DB::transaction(function () use ($request) {
+            try {
+                $articleVente = new ArticleVente();
+                $articleVente->libelle = ucfirst(strtolower($request->libelle));
+                $articleVente->categorie_id = $request->categorie['id'];
+                $articleVente->promo = $request->promo;
+                $articleVente->marge = $request->marge;
+                $articleVente->prix_confection = $request->prix_confection;
+                $articleVente->prix_vente = $request->prix_vente;
+                $articleVente->photo = $request->photo;
+                $articleVente->reference = $articleVente->getReference($request->categorie["id"], $request->libelle);
+                // if ($request->hasFile('photo')) {
+                //     $fileName = time() . '.' . $request->photo->extension();
+                //     $request->photo->storeAs('public/images', $fileName);
+                //     $articleVente->photo = 'images/' . $fileName;
+                // } else {
+                //     $articleVente->photo = 'pas dispo';
+                // }
+                $articleVente->save();
+                $confectionVente = [];
+                foreach ($request->confection_by_vente as $value) {
+                    $confectionVente[] = ["article_id" => $value["article_id"], "quantite_necessaire" => $value['quantite_necessaire']];
+                }
+                $articleVente->articles()->attach($confectionVente);
+                // $articleVente->articles()->attach($request->confection_by_vente);
+             
+                return ["message" => "Insertion réussi", "data" => [new ArticleVenteResource($articleVente)], "status" => true];
+            } catch (\Throwable $th) {
+           
+                return ["message" => $th->getMessage(), "status" => false, "data" => []];
+            }
+        });
     }
 
     /**
@@ -108,29 +101,28 @@ class ArticleVenteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArticleVenteRequest $request)
+    public function updateArticle(UpdateArticleVenteRequest $request)
     {
+        // dd($request->id);
+        // return $request->id;
         $dataToupdate = [];
-        $article = Article::where("id", $request->id)->first();
+        $article = ArticleVente::where("id", $request->id)->first();
+        // return $article;
         if (isset($request->libelle)) {
             array_push($dataToupdate, ["libelle" => ucfirst(strtolower($request->libelle))]);
         }
-        if (isset($request->categorie_id)) {
-            array_push($dataToupdate, ["categorie_id" => $request->categorie_id]);
+        if (isset($request->categorie)) {
+            array_push($dataToupdate, ["categorie_id" => $request->categorie["id"]]);
         }
         if (isset($request->promo)) {
             array_push($dataToupdate, ["promo" => $request->promo]);
         }
         if (isset($request->marge) && $request->marge <= $article->prix_confection && $request->marge >= 5000) {
-           
-                array_push($dataToupdate, ["marge" => $request->marge]);
-            
+
+            array_push($dataToupdate, ["marge" => $request->marge]);
         }
         if (isset($request->prix_confection)) {
             array_push($dataToupdate, ["prix_confection" => $request->prix_confection]);
-        }
-        if (isset($request->prix_vente)) {
-            array_push($dataToupdate, ["prix_vente" => $request->prix_vente]);
         }
         if (isset($request->prix_vente)) {
             array_push($dataToupdate, ["prix_vente" => $request->prix_vente]);
@@ -145,18 +137,23 @@ class ArticleVenteController extends Controller
             if ($this->venteHasGoodConfgection(array_map(function ($element) {
                 return $element["article_id"];
             }, $request->confection_by_vente))) {
-                $article->articles()->sync($request->confection_by_vente);
+                $confectionVente = [];
+                foreach ($request->confection_by_vente as $value) {
+                    $confectionVente[] = ["article_id" => $value["article_id"], "quantite_necessaire" => $value['quantite_necessaire']];
+                }
+                $article->articles()->sync($confectionVente);
+                // $article->articles()->sync($request->confection_by_vente);
             }
         }
         if (isset($request->photo)) {
-            if ($request->hasFile('photo')) {
-                $fileName = time() . '.' . $request->photo->extension();
-                $request->photo->storeAs('public/images', $fileName);
-                array_push($dataToupdate, ["photo" => $fileName]);
-            }
+            // if ($request->hasFile('photo')) {
+            //     $fileName = time() . '.' . $request->photo->extension();
+            //     $request->photo->storeAs('public/images', $fileName);
+                array_push($dataToupdate, ["photo" => $request->photo]);
+            // }
         }
 
-        ArticleVente::where("id", $request->id)->update([$dataToupdate]);
+        ArticleVente::where("id", $request->id)->update([...$dataToupdate]);
         return ["message" => "Données mise à jours", "status" => true, "data" => new ArticleVenteResource(ArticleVente::find($request->id))];
     }
 
@@ -166,7 +163,8 @@ class ArticleVenteController extends Controller
     public function destroy(Request $request)
     {
         //
-        Article::whereIn("id", [$request->articleVente])->delete();
+        // return $request->articleVente;
+        ArticleVente::whereIn("id", [$request->articleVente])->delete();
         return ["message" => "Données supprimées", "status" => 200, "data" => []];
     }
 
@@ -200,7 +198,7 @@ class ArticleVenteController extends Controller
 
     public function search(Request $request)
     {
-        return ["message" => "", "status" => true, "data" => ArticleVenteResource::collection(ArticleVente::where("libelle","like", $request->libelle."%")->get())];
+        return ["message" => "", "status" => true, "data" => ArticleVenteResource::collection(ArticleVente::where("libelle", "like", $request->libelle . "%")->get())];
     }
 
 

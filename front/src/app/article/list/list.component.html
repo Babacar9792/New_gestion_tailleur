@@ -14,11 +14,18 @@
         <!-- ---------------------item------------ -->
         <!-- <app-item [articles] = "articles" ></app-item> -->
         <!-- ------------------------------------ -->
-        <tr>
+        <tr *ngFor="let article of articles">
+            <td>{{article.libelle}}</td>
+            <td>{{article.prix}}</td>
+            <td>{{article.stock}}</td>
+            <td>{{article.categorie.libelle}}</td>
+            <td>bouton</td>
 
             <!-- <app-item ></app-item> -->
         </tr>
 
     </tbody>
+
+    <app-pagination [links] = "links" (otherPage)="changePage($event)"></app-pagination>
     <!-- <pagination-controls previousLabel="Prev" nextLabel="Next" class="w-100"></pagination-controls> -->
 </table>

@@ -2,8 +2,7 @@
 
 
 <div class="">
-    <h5 class="text-decoration-underline">Liste des articles de ventes <span class=""><i
-                class="bi bi-plus-circle"></i></span> </h5>
+    <h5 class="text-decoration-underline">Liste des articles de ventes </h5>
     <table class="table">
         <thead>
             <tr>
@@ -21,28 +20,33 @@
                 <td> {{article.quantite_stock}}</td>
                 <td class="w-25">
                     <ul class="d-flex w-75 flex-wrap">
-                        <li *ngFor="let confection of article['confection_vente']" class="ms-5">{{confection.libelle}}</li>
+                        <li *ngFor="let confection of article['confection_by_vente']" class="ms-5">
+                            {{confection.libelle}}</li>
                     </ul>
                 </td>
                 <td class="d-flex w-100">
-                    <div class="mx-1"> <button type="button" class="btn btn-dark">Editer</button> </div>
+                    <div class="mx-1"> <button type="button" class="btn btn-dark" (click)="sendTooEdit(article)"
+                            [id]="article">Editer</button> </div>
                     <div class="position-relative w-100 d-flex">
-                        <i class="bi bi-bookmark-check-fill text-light bg-success position-absolute top-0 left-0 invisible btn btn-success" [ngClass]="{'invisible' : deleteOrOk}" (click)="deleteOk()">OK(1)</i>
-                        <i class="bi bi-trash3-fill position-absolute top-0 left-0 bg-danger invisible btn btn-danger" [ngClass]="{'invisible' : !deleteOrOk}" (click)="deleteOk()">Supp   </i>
+                        <!-- <i class="bi bi-bookmark-check-fill text-light bg-success position-absolute top-0 left-0 invisible btn btn-success" [ngClass]="{'invisible' : deleteOrOk}" (click)="deleteOk($event)">OK(1)</i> -->
+                        <i class="bi bi-trash3-fil position-absolute top-0 left-0 bg-danger invisible btn btn-danger"
+                            [ngClass]="{'invisible' : !deleteOrOk}" (click)="deleteOk($event)" id="{{article.id}}">Supp
+                        </i>
 
                     </div>
-                    
+
                 </td>
 
             </tr>
         </tbody>
     </table>
-    <nav aria-label="...">
+    <app-pagination [links]="links" (otherPage)="changePage($event)"></app-pagination>
+    <!-- <nav aria-label="...">
         <ul class="pagination">
             <li class="page-item" *ngFor="let link of links" [ngClass]="{'active' : link.active, 'disabled' : link.url ===null}" >
-                <a class="page-link"  id="{{link.url}}" (click) = "changePage($event)">{{link.label}}</a>
+                <a class="page-link"  id="{{link.url}}" (click) = "changePage($event)" [innerHTML]="link.label"></a>
             </li>
            
         </ul>
-    </nav>
+    </nav> -->
 </div>

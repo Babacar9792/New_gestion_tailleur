@@ -117,92 +117,130 @@
 </form> -->
 
 
-<div class="w-100 border border-2 h-50">
-   
+<div class="w-80 border border-2 h-50 ">
 
 
-    <form class="w-100 d-flex justify-content-center align-items-center">
+    <form class="w-100 d-flex justify-content-center align-items-center" [formGroup]="registerArticle"
+        (ngSubmit)="onSubmitForm()">
 
         <div class="w-50 d-flex flex-column justify-content-between align-items-center">
 
 
+            <div class="row g-3 align-items-center mt-1 justify-content-between w-100 position-relative">
+                <div class="col-auto">
+                    <label for="libelle" class="col-form-label" > Libelle </label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" id="libelle" class="form-control" aria-describedby="textHelpInline"
+                        formControlName="libelle">
+                </div>
+                <div class="text-danger"
+                    *ngIf="registerArticle.get('libelle')?.hasError('required') && registerArticle.get('libelle')?.touched">
+                    Le libellé est requis.
+                </div>
+                <div class="text-danger"
+                    *ngIf="registerArticle.get('libelle')?.hasError('minlength') && registerArticle.get('libelle')?.touched">
+                    Le libellé doit contenir au moins trois lettres.
+                </div>
+            </div>
+
+            <!-- --------------------------------------------------------------------------------------- -->
             <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
                 <div class="col-auto">
-                  <label for="libelle" class="col-form-label">Libelle</label>
+                    <label for="prix" class="col-form-label">Prix</label>
                 </div>
                 <div class="col-auto">
-                  <input type="text" id="libelle" class="form-control" aria-describedby="textHelpInline">
+                    <input type="text" id="prix" class="form-control" aria-describedby="textHelpInline"
+                        formControlName="prix">
                 </div>
-              </div>
+                <div *ngIf="registerArticle.get('prix')?.hasError('min') && registerArticle.get('prix')?.touched"
+                    class="text-danger"> le prix doit etre superieur ou egale à 1 </div>
+            </div>
 
-              <!-- --------------------------------------------------------------------------------------- -->
-              <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
+            <!-- --------------------------------------------------------------------------------------- -->
+            <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
                 <div class="col-auto">
-                  <label for="prix" class="col-form-label">Prix</label>
+                    <label for="stock" class="col-form-label">Stock</label>
                 </div>
                 <div class="col-auto">
-                  <input type="text" id="prix" class="form-control" aria-describedby="textHelpInline">
+                    <input type="text" id="stock" class="form-control" aria-describedby="textHelpInline"
+                        formControlName="stock">
                 </div>
-              </div>
+                <div *ngIf="registerArticle.get('stock')?.hasError('min') && registerArticle.get('stock')?.touched"
+                    class="text-danger"> le stock doit etre superieur ou egale à 1 </div>
 
-              <!-- --------------------------------------------------------------------------------------- -->
-              <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
-                <div class="col-auto">
-                  <label for="stock" class="col-form-label">Stock</label>
-                </div>
-                <div class="col-auto">
-                  <input type="text" id="stock" class="form-control" aria-describedby="textHelpInline">
-                </div>
-              </div>
+            </div>
 
-              <!-- --------------------------------------------------------------------------------------- -->
-              <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
+            <!-- --------------------------------------------------------------------------------------- -->
+            <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
                 <div class="col-auto">
-                  <label for="inputtext6" class="col-form-label">Categorie</label>
+                    <label for="inputtext6" class="col-form-label">Categorie</label>
                 </div>
                 <div class="col-auto">
-                  <!-- <input type="text" id="inputtext6" class="form-control" aria-describedby="textHelpInline"> -->
-                  <select class="form-select" aria-label="Default select example">
-                    <option selected>Choisir une categorie</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                </div>
-              </div>
+                    <!-- <input type="text" id="inputtext6" class="form-control" aria-describedby="textHelpInline"> -->
+                    <select class="form-select" aria-label="Default select example" formControlName="categorie">
+                        <option value="">Choisir une categorie</option>
+                        <option *ngFor="let categorie of categories" value="{{categorie.id}}">{{categorie.libelle}}
+                        </option>
 
-              <!-- --------------------------------------------------------------------------------------- -->
-              <div class="row g-3 align-items-center mt-1 justify-content-between w-100">
-                <div class="col-auto">
-                  <label for="fournisseur" class="col-form-label">Fournisseur</label>
-                </div>
-                <div class="col-auto">
-                  <input type="text" id="fournisseur" class="form-control" aria-describedby="textHelpInline">
-                </div>
-              </div>
+                    </select>
+                    <div *ngIf="registerArticle.get('categorie')?.hasError('required') && registerArticle.get('categorie')?.touched"
+                        class="text-danger"> Vous devez choisir au moins une categorie </div>
 
-              <!-- --------------------------------------------------------------------------------------- -->
+                </div>
+            </div>
+
+            <!-- --------------------------------------------------------------------------------------- -->
+            <div class="row g-3 align-items-center mt-1 justify-content-between w-100 flex-wrap">
+                <div class="d-flex justify-content-evenly align-items-center w-100">
+                    <button type="button" class="btn btn-primary position-relative" *ngFor="let fournisseur of fournisseurSelect">
+                        {{fournisseur.nom_fournisseur}}
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle" id="{{fournisseur.id+'_'+fournisseur.nom_fournisseur}}" (click)="deSelectedFournisseur($event)">
+                            <span class="visually">x</span>
+                        </span>
+                    </button>
+                </div>
+                <div class="col-auto">
+                    <label for="fournisseur" class="col-form-label">Fournisseur</label>
+                </div>
+                <div class="col-auto position-relative">
+                    <input type="text" id="fournisseur" class="form-control" aria-describedby="textHelpInline"
+                        (input)="searchFournisseur($event)" >
+                      <div class="w-75 position-absolute">
+                        <div class="form-check form-check-reverse border border-3 " *ngFor="let fournisseur of fournisseurSearched">
+                            <input class="form-check-input" type="checkbox" value="{{fournisseur.id+'_'+fournisseur.nom_fournisseur}}" id="{{fournisseur.id+'_'+fournisseur.nom_fournisseur}}"  (change)="chooseFournisseur($event)">
+                            <label class="form-check-label border border-1" for="reverseCheck1">
+                                {{fournisseur.nom_fournisseur}}
+                            </label>
+                        </div>
+                      </div>
+                </div>
+            </div>
+
+            <!-- --------------------------------------------------------------------------------------- -->
 
 
         </div>
-        <div class="w-50 d-flex flex-column justify-conetent-center align-items-center">
-            <div class="w-75 border border-1 h-25 d-flex justify-conetent-center align-items-center flex-column">
+        <div class="w-50 d-flex flex-column justify-content-center align-items-center">
+            <div class="w-75 h-25 d-flex justify-content-center align-items-center flex-column">
                 <label for="chooseImage" class="w-75 h-50">
-                    <img src="https://media.istockphoto.com/id/1206577970/vector/image-upload-icon.jpg?s=170667a&w=0&k=20&c=hVvbDOXk8n9gBaJtAxmnLK-KkGvalMj3OKGMF-IpW2A=" alt="" class="img img-thumbnail">
+                    <img src="https://media.istockphoto.com/id/1206577970/vector/image-upload-icon.jpg?s=170667a&w=0&k=20&c=hVvbDOXk8n9gBaJtAxmnLK-KkGvalMj3OKGMF-IpW2A="
+                        alt="" class="img img-thumbnail ">
                 </label>
-                <input type="file" id="chooseImage" [hidden]="true">
-
-
-
-
+                <input type="file" id="chooseImage" [hidden]="true" formControlName="photo">
             </div>
-            <div class="d-flex justify-conetent-center align-items-center flex-column w-50">
+            <div class="d-flex justify-content-center align-items-center flex-column w-50">
 
                 <label for="">REF</label>
                 <input type="text" value="nhgf" class="form-control w-100">
             </div>
 
+            <div class="w-100 d-flex justify-content-end  align-items-center">
+                <button type="submit" class="btn btn-success mx-3">Ajouter</button>
+            </div>
         </div>
+
 
 
 

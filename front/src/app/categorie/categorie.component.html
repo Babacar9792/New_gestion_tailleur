@@ -83,10 +83,8 @@
 
 
 
-<div style="height: 40em; width: 60em;">
-
-
-    <div class="container container-fluid w-100 d-flex bg-dark border border-1 flex-column p-4 text-light h-100 d-flex justify-content-center align-items-center">
+<div style="" class="w-100 h-100">
+    <div class="container container-fluid w-100 d-flex border border-1 flex-column p-4 h-100 d-flex justify-content-center align-items-center">
         <div class=" border border-1 p-4 w-100">
             <h2>Categorie</h2>
             <!-- <div class="w-100 d-flex justify-content-end"><button disabled="disabled">AAA</button></div> -->
@@ -96,20 +94,27 @@
               </div>
         </div>
         <div class="w-100 border border-1 p-3">
-            <form class="d-flex justify-content-around w-100 p-4">
+            <form class="d-flex justify-content-around w-100 p-4" [formGroup]="registerCategorie" (ngSubmit)="onSubmit()">
                 <div class="d-flex justify-content-center align-items-center">
                     <label for="libelle">Libelle</label>
-                    <input type="text" name="libelle" id="" class="form-control mx-4"  >
+                    <input type="text" name="libelle" id="" class="form-control mx-4" formControlName ="libelle" >
+                    <div>
+                        <select name="" id="" class="form-select" formControlName="type_categorie">
+                            <option value="">Choose...</option>
+                            <option value="{{option.value}}" *ngFor="let option of typeCategorie">{{option.libelle}}</option>
+                        </select>
+                    </div>
+
     
                 </div>
-                <button type="submit" class="btn btn-primary ms-4" >Ok</button>
+                <button type="submit" class="btn btn-primary ms-4" [disabled]="!registerCategorie.valid" >Ok</button>
             </form>
         </div>
         <div class="w-100 p-3 border border-1">
             <div class="w-100 d-flex justify-content-around" style="text-decoration: underline;">
                 <h3>Liste des articles</h3>
                 <div>
-                    <button type="button" class="btn btn-danger">Supprimer</button>
+                    <button type="button" class="btn btn-danger" [disabled]="idTodeletes.length === 0" (click)="deleteCategories()">Supprimer</button>
                 </div>
     
             </div>
@@ -117,28 +122,28 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">   <input type="checkbox" name="" id=""> </th>
+                            <th scope="col">   <input type="checkbox"class="input" name="" id="" (change)="checkedAll($event)" [checked]="idTodeletes.length === categories.length" [disabled]="addOrEdit === 'Ajout'"> </th>
                             <th scope="col">Libelle</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr >
-                            <th scope="row">   <input type="checkbox" name="" id=""> aaaaa </th>
-                            <td ></td>
+                        <tr *ngFor="let categorie of categories" id="{{categorie.id}}" >
+                            <th scope="row">   <input type="checkbox" name="" id="{{categorie.id}}" [checked]="allCheckedOrNo" (change)="checkCategorie($event)" [disabled]="addOrEdit === 'Ajout'"  [checked]="" class="input"> </th>
+                            <td   >{{categorie.libelle}}</td>
                           
                         </tr>
-                        <!-- <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                           
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                          
-                        </tr> -->
+                      
                     </tbody>
                 </table>
+
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <li class="page-item" *ngFor="let link of links" [ngClass]="{'active' : link.active, 'disabled' : link.url ===null}" >
+                            <a class="page-link"  id="{{link.url}}" (click) = "changePage($event)" >{{link.label}}</a>
+                        </li>
+                       
+                    </ul>
+                </nav>
     
     
             </div>
