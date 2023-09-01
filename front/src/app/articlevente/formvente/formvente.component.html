@@ -77,7 +77,7 @@
                                     formControlName="libelle_article" class="form-control w-50"></th>
                             <td class="position-relative">
                                 <input type="number" name="" id="" formControlName="quantite_necessaire" min="1"
-                                    class="form-control w-50" (input)="calculPrixConfection(i)"
+                                    class="form-control w-50" (input)="calculPrixConfection(i, $event)"
                                     [ngClass]="{'is-invalid' : confection_by_vente.get('libelle')?.invalid && (confection_by_vente.get('libelle')?.touched || confection_by_vente.get('libelle')?.dirty)}">
                                 <div class="invalid-feedback">
                                     <span

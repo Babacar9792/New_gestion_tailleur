@@ -4,10 +4,10 @@ import { ParentService } from '../services/parent.service';
 import { Link } from '../interfaces/link';
 import { DataResponse } from '../interfaces/data-response';
 import { Article } from '../interfaces/article';
-import { ArticleVente } from '../interfaces/article-vente';
+import { ArticleVente, pivot } from '../interfaces/article-vente';
 import { ResponseArticleVente } from '../interfaces/response-article-vente';
 import { Categorie } from '../interfaces/categorie';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { FormventeComponent } from './formvente/formvente.component';
 import { environment } from 'src/environments/environment.development';
 
@@ -95,12 +95,15 @@ export class ArticleventeComponent implements OnInit {
   addArticle(event: FormGroup) {
     if (this.addOrUpdate) {
       this.articleVenteService.addElement<DataResponse<ArticleVente[]>>(event.value, "articleVente").subscribe({
-        next: (valeur) => {
+        next: (valeur : any) => {
           this.formvente.registerFormForSell.reset();
           alert(valeur.message);
+          this.articles.unshift(valeur.data[0])
+          console.log(valeur);
+          
         },
         error: (error) => {
-          alert(error.error.message)
+          alert(error.message)
 
         }
       })
@@ -108,21 +111,55 @@ export class ArticleventeComponent implements OnInit {
     else {
 
       this.articleVenteService.update('articleVente/update', this.formvente.registerFormForSell.value).subscribe({
-        next: (value : any) => {
+        next: (value: any) => {
           alert(value.message)
+          this.addOrUpdate = true;
         },
         error: error => {
           alert(error.error.message)
         }
       })
-      this.addOrUpdate = !this.addOrUpdate;
     }
 
   }
 
   updateArticle(event: any) {
-    this.addOrUpdate = !this.addOrUpdate;
+    console.log(event);
+
+    console.log(this.formvente.confection_by_vente);
+
+    this.addOrUpdate = false;
     this.formvente.registerFormForSell.patchValue(event);
+    // this.formvente.confection_by_vente.push({
+    //   "article_id": 6,
+    //   "quantite_necessaire": 10000,
+    //   "libelle_article": "Aiguille",
+    //   "categorie": {
+    //     "id": 4,
+    //     "libelle": "Tissu",
+    //     "type_categorie": "AC",
+    //     "enregistrement_categorie": 1
+    //   }
+    // });
+
+    // console.log();
+    let tab = [];
+    tab = event.confection_by_vente as pivot[];
+    console.log(tab);
+    this.formvente.confection_by_vente.setValue([])
+    tab.forEach((element : pivot) => {
+      this.formvente.confection_by_vente.push(new FormGroup({
+        article_id : new FormControl(element.article_id),
+        libelle_article : new FormControl(element.libelle_article),
+        categorie : new FormControl(element.categorie),
+        quantite_necessaire : new FormControl(element.quantite_necessaire),
+
+      }))
+    });
+
+    console.log(this.formvente.registerFormForSell.value);
+
+
     this.formvente.image = this.formvente.registerFormForSell.get('photo')!.value!;
   }
 

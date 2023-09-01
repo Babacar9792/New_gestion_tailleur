@@ -3,17 +3,25 @@ import { Categorie } from "./categorie";
 
 export interface ArticleVente {
 
-    id ?: number,
-    libelle : string,
-    categorie : Categorie,
-    confection_by_vente : Article[],
-    quantite_stock ?: number,
-    reference : string,
-    promo : number,
-    photo ?: string,
-    marge : number,
-    prix_vente : number,
-    prix_confection : number
+  id?: number,
+  libelle: string,
+  categorie: Categorie,
+  confection_by_vente: pivot[],
+  quantite_stock?: number,
+  reference: string,
+  promo: number,
+  photo?: string,
+  marge: number,
+  prix_vente: number,
+  prix_confection: number
+}
+
+export interface pivot {
+  article_id : number
+  categorie : Categorie,
+  libelle_article : string
+  quantite_necessaire : number 
+
 }
 
 

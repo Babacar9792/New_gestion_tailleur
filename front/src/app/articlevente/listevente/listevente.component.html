@@ -21,7 +21,7 @@
                 <td class="w-25">
                     <ul class="d-flex w-75 flex-wrap">
                         <li *ngFor="let confection of article['confection_by_vente']" class="ms-5">
-                            {{confection.libelle}}</li>
+                            {{confection.libelle_article + '_'+confection.quantite_necessaire}}</li>
                     </ul>
                 </td>
                 <td class="d-flex w-100">

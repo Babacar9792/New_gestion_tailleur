@@ -16,7 +16,7 @@ class ArticleVente extends Model
     use HasFactory, SoftDeletes;
     public function articles() : BelongsToMany
     {
-        return $this->belongsToMany(Article::class, "confection_ventes");
+        return $this->belongsToMany(Article::class, "confection_ventes")->withPivot("quantite_necessaire");
 
     }
     public function categorie() : BelongsTo

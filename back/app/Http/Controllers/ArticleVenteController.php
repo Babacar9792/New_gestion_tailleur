@@ -65,7 +65,7 @@ class ArticleVenteController extends Controller
                 $articleVente->marge = $request->marge;
                 $articleVente->prix_confection = $request->prix_confection;
                 $articleVente->prix_vente = $request->prix_vente;
-                $articleVente->photo = $request->photo;
+                $articleVente->photo = isset($request->photo) ? $request->photo : "no image";
                 $articleVente->reference = $articleVente->getReference($request->categorie["id"], $request->libelle);
                 // if ($request->hasFile('photo')) {
                 //     $fileName = time() . '.' . $request->photo->extension();
@@ -105,33 +105,51 @@ class ArticleVenteController extends Controller
     {
         // dd($request->id);
         // return $request->id;
+        // ArticleVente::where("id", $request->id)->update($request->all());
+        // return $request->all();
+
         $dataToupdate = [];
         $article = ArticleVente::where("id", $request->id)->first();
         // return $article;
         if (isset($request->libelle)) {
-            array_push($dataToupdate, ["libelle" => ucfirst(strtolower($request->libelle))]);
+            // array_push($dataToupdate, ["libelle" => ucfirst(strtolower($request->libelle))]);
+            $dataToupdate[] = ["libelle" => $request->libelle];
+
         }
         if (isset($request->categorie)) {
-            array_push($dataToupdate, ["categorie_id" => $request->categorie["id"]]);
+            // array_push($dataToupdate, ["categorie_id" => $request->categorie["id"]]);
+            $dataToupdate[] = ["categorie_id" => $request->categorie['id']];
+            
         }
         if (isset($request->promo)) {
-            array_push($dataToupdate, ["promo" => $request->promo]);
+            // array_push($dataToupdate, ["promo" => $request->promo]);
+            $dataToupdate[] = ["promo" => $request->promo];
+
         }
         if (isset($request->marge) && $request->marge <= $article->prix_confection && $request->marge >= 5000) {
 
-            array_push($dataToupdate, ["marge" => $request->marge]);
+            // array_push($dataToupdate, ["marge" => $request->marge]);
+            $dataToupdate[] = ["marge" => $request->marge];
+
         }
         if (isset($request->prix_confection)) {
-            array_push($dataToupdate, ["prix_confection" => $request->prix_confection]);
+            // array_push($dataToupdate, ["prix_confection" => $request->prix_confection]);
+            $dataToupdate[] = ["prix_confection" => $request->prix_confection];
+
         }
         if (isset($request->prix_vente)) {
-            array_push($dataToupdate, ["prix_vente" => $request->prix_vente]);
+            // array_push($dataToupdate, ["prix_vente" => $request->prix_vente]);
+            $dataToupdate[] = ["prix_vente" => $request->prix_vente];
+
         }
         if (isset($request->quantite_stock)) {
-            array_push($dataToupdate, ["quantite_stock" => $request->quantite_stock]);
+            // array_push($dataToupdate, ["quantite_stock" => $request->quantite_stock]);
+            $dataToupdate[] = ["quantite_stock" => $request->quantite_stock];
+
         }
         if (isset($request->reference)) {
-            array_push($dataToupdate, ["reference" => $request->reference]);
+            // array_push($dataToupdate, ["reference" => $request->reference]);
+            $dataToupdate[] = ["reference" => $request->reference];
         }
         if (isset($request->confection_by_vente)) {
             if ($this->venteHasGoodConfgection(array_map(function ($element) {
@@ -149,11 +167,12 @@ class ArticleVenteController extends Controller
             // if ($request->hasFile('photo')) {
             //     $fileName = time() . '.' . $request->photo->extension();
             //     $request->photo->storeAs('public/images', $fileName);
-                array_push($dataToupdate, ["photo" => $request->photo]);
+                // array_push($dataToupdate, ["photo" => $request->photo]);
+                $dataToupdate[] = ["photo" => $request->photo];
             // }
         }
 
-        ArticleVente::where("id", $request->id)->update([...$dataToupdate]);
+        ArticleVente::where("id", $request->id)->update(...$dataToupdate);
         return ["message" => "Données mise à jours", "status" => true, "data" => new ArticleVenteResource(ArticleVente::find($request->id))];
     }
 

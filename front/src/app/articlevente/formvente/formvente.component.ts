@@ -33,27 +33,27 @@ export class FormventeComponent {
 
 
 
-ValidationConfectionByVente(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const value = control.value;
+  ValidationConfectionByVente(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
 
-    if (!value || !Array.isArray(value)) {
+      if (!value || !Array.isArray(value)) {
+        return null;
+      }
+      let categoriesMin = this.allCategories.filter((element: Categorie) => environment.minConfection.includes(element.libelle)).map((element: Categorie) => element.id);
+
+      // Check if all categoriesMin IDs are present in selectedCategoryIds
+      const allCategoriesMinIncluded = categoriesMin.every(id =>
+        value.some((element: any) => element.categorie && element.categorie.id === id)
+      );
+
+      if (!allCategoriesMinIncluded) {
+        return { 'minCategorieConfectionRequired': true };
+      }
+
       return null;
-    }
-   let categoriesMin = this.allCategories.filter((element: Categorie) => environment.minConfection.includes(element.libelle)).map((element: Categorie) => element.id);
-
-    // Check if all categoriesMin IDs are present in selectedCategoryIds
-    const allCategoriesMinIncluded = categoriesMin.every(id =>
-      value.some((element: any) => element.categorie && element.categorie.id === id)
-    );
-
-    if (!allCategoriesMinIncluded) {
-      return { 'minCategorieConfectionRequired': true };
-    }
-
-    return null;
-  };
-}
+    };
+  }
 
 
 
@@ -120,7 +120,7 @@ ValidationConfectionByVente(): ValidatorFn {
   constructor(private fb: FormBuilder) { }
 
   registerFormForSell = this.fb.group({
-    id : ['', []],
+    id: ['', []],
     libelle: ['', [Validators.required, Validators.minLength(3)]]!,
     promo: [0, [Validators.required, Validators.min(0), this.validationPromo]],
     reference: ['', []],
@@ -175,7 +175,7 @@ ValidationConfectionByVente(): ValidatorFn {
       console.log(this.newPatch);
 
       this.articleSearched = this.articlesConfections.filter((element: Article) => element.libelle.toLowerCase().startsWith(searched.value.toLowerCase()));
-      this.articleSearched = this.articleSearched.filter((element : Article) => this.confection_by_vente.value.map((ele : any) => ele.article_id).indexOf(element.id) === -1);
+      this.articleSearched = this.articleSearched.filter((element: Article) => this.confection_by_vente.value.map((ele: any) => ele.article_id).indexOf(element.id) === -1);
     }
     console.log(this.articlesConfections);
 
@@ -208,8 +208,9 @@ ValidationConfectionByVente(): ValidatorFn {
 
 
 
-  calculPrixConfection(i: number) {
-    console.log();
+  calculPrixConfection(i: number, event : Event) {
+    // console.log();
+    let input = this.superieurZero(event);
     let arti: Article | undefined = this.articlesConfections.find((element: Article) => element.id === this.confection_by_vente.controls[i].value.article_id);
     if (arti !== undefined) {
       let i = 0;
@@ -238,6 +239,7 @@ ValidationConfectionByVente(): ValidatorFn {
       quantite_necessaire: [0, [Validators.required, Validators.min(1)]],
       categorie: [null]
     });
+
     this.confection_by_vente.push(articleForm);
     // console.log(this.confection_by_vente.value);
   }
@@ -285,7 +287,7 @@ ValidationConfectionByVente(): ValidatorFn {
     // let image = img?.files!['0'];
     // this.fileToSend = image;
     // this.image = URL.createObjectURL(image);
- 
+
 
 
 
@@ -299,7 +301,7 @@ ValidationConfectionByVente(): ValidatorFn {
         this.image = e.target.result;
         console.log(this.image);
         this.registerFormForSell.get("photo")?.setValue(e.target.result)
-        
+
       };
       reader.readAsDataURL(file);
     }
@@ -309,8 +311,6 @@ ValidationConfectionByVente(): ValidatorFn {
     let li = event.target as HTMLLIElement;
     console.log(li.textContent);
     console.log(this.articlesConfections.find((element: Article) => element.id === +li.id));
-
-
     const dian = this.confection_by_vente.controls[this.newPatch] as FormGroup;
     let sugg = this.articlesConfections.find((element: Article) => element.id === +li.id);
     dian.controls['libelle_article'].setValue(sugg?.libelle);
@@ -330,5 +330,15 @@ ValidationConfectionByVente(): ValidatorFn {
   compareWith = (cat1: Categorie, cat2: Categorie): boolean => {
     return cat1 && cat2 ? cat1.id == cat2.id : cat1 == cat2;
 
+  }
+
+
+  superieurZero(event: Event) {
+    let input = event.target as HTMLInputElement;
+    if (input.value.startsWith('-') || input.value === '') {
+      input.value = "1";
+      return "1";
+    }
+    return input.value;
   }
 }
